@@ -1,7 +1,4 @@
-@extends('layout-classic')
-@section('title','List Products')
-
-@section('content')
+<x-layout title="List Products">
     <x-card>
         <h1>{{ $title }}</h1>
         {!! $intro !!} {{-- disable text escape --}}
@@ -43,4 +40,4 @@
     @else
         <p>Aucun Produit</p>
     @endif
-@endsection
+</x-layout>

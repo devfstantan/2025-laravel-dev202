@@ -24,3 +24,24 @@
 .line-gray{
     background-color: #eee;
 }
+
+.card{
+    border: 1px solid black;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.btn{
+    padding: 4px 8px;
+    background-color: green;
+    color:white;
+    border: none;
+}
+.btn-primary{
+    background-color: blue;
+    color:white
+}
+.btn-secondary{
+    background-color: orange;
+    color:black
+}
