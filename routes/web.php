@@ -82,13 +82,8 @@ Route::get('/products',function(){
             'stock' => 55,
         ]
     ];
-    $emptyProducts = [];
 
-    return view('products.index',[
-        'title' => $title,
-        'intro' => $intro,
-        'products' => $products
-    ]);
+    return view('products.index',compact('title','intro','products'));
 })->name('products.index' );
 
 

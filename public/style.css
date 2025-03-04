@@ -1,0 +1,26 @@
+.stock {
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: inline-block
+}
+
+.stock-success {
+    color: white;
+    background-color: green;
+}
+
+.stock-warning {
+    color: black;
+    background-color: orange;
+}
+
+.stock-danger {
+    color: white;
+    background-color: red;
+}
+.line-white{
+    background: white;
+}
+.line-gray{
+    background-color: #eee;
+}
