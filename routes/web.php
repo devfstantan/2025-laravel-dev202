@@ -9,47 +9,86 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::view('/', 'welcome')->name('home');
 
-// Route::get('/hello',function(){
-//     return view('hello');
-// });
 
-Route::view('/hello', 'hello')->name('hello');
-Route::redirect('/hello-old', '/hello', 301);
+Route::get('/products',function(){
+    $title = "Liste des produits";
+    $intro = "<p>lorem ipsum dolor <b>dldld </b> lorme <br> lorem lorme </p>";
+    
+    $products = [
+        [
+            'id' => 1,
+            'title' => "Product 1",
+            'price' => 199,
+            'stock' => 20,
+        ],
+        [
+            'id' => 2,
+            'title' => "Product 2",
+            'price' => 299,
+            'stock' => 5,
+        ],
+        [
+            'id' => 3,
+            'title' => "Product 3",
+            'price' => 399,
+            'stock' => 0,
+        ],
+        [
+            'id' => 4,
+            'title' => "Product 4",
+            'price' => 499,
+            'stock' => 5,
+        ],
+        [
+            'id' => 5,
+            'title' => "Product 5",
+            'price' => 599,
+            'stock' => 25,
+        ],
+        [
+            'id' => 6,
+            'title' => "Product 6",
+            'price' => 699,
+            'stock' => 30,
+        ],
+        [
+            'id' => 7,
+            'title' => "Product 7",
+            'price' => 799,
+            'stock' => 35,
+        ],
+        [
+            'id' => 8,
+            'title' => "Product 8",
+            'price' => 899,
+            'stock' => 40,
+        ],
+        [
+            'id' => 9,
+            'title' => "Product 9",
+            'price' => 999,
+            'stock' => 45,
+        ],
+        [
+            'id' => 10,
+            'title' => "Product 10",
+            'price' => 1099,
+            'stock' => 50,
+        ],
+        [
+            'id' => 11,
+            'title' => "Product 11",
+            'price' => 1199,
+            'stock' => 55,
+        ]
+    ];
+    $emptyProducts = [];
+
+    return view('products.index',[
+        'title' => $title,
+        'intro' => $intro,
+        'products' => $products
+    ]);
+})->name('products.index' );
 
 
-// Post d'un formulaire:
-Route::post('/login', function (Request $request) {
-    $username = $request->username;
-    $pwd = $request->pwd;
-
-    return "Login $username / $pwd";
-})->name('login');
-
-Route::prefix('/products')
-    ->name('products.')
-    ->group(function () {
-        // Page Produit
-        Route::get('/{id}', function (int $id) {
-            return "Product $id";
-        })->where('id', '[0-9]+')->name('show');
-
-        // Page pour une image  d'un produit
-        // productID et imageID sont obligatoires
-        Route::get(
-            '/{productId}/images/{imageId}',
-            function (int $productId, int $imageId) {
-                return "Product $productId image : $imageId";
-            }
-        )->name('image');
-
-        /**
-         * productId: obligatoir
-         * network: optionnel (par défaut facebook)
-         */
-        Route::get(
-            '/{productId}/share/{network?}',
-            function (int $productId, string $network = "facebook") {
-                return "Product $productId network : $network";
-            }
-        )->name('share');
-    });
