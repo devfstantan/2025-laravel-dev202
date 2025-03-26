@@ -1,0 +1,61 @@
+Exercice : En utilisant le query-builder, donner 
+les requêtes pour:
+1- lister tous les produits.
+DB::table('products')->get();
+
+2- récupérer le produit ayant l'id 20.
+DB::table('products')
+->where('id',20)
+->first();
+
+3- récupérer le nombre de produits publiés.
+DB::table('products')
+->where('is_piblished',true)
+->count()
+
+4- récupérer les produits hors stock (stock = 0)
+DB::table('products')
+->where('stock',0)
+->get()
+
+5- récupérer les produits publiés et hors stock.
+DB::table('products')
+->where('is_piblished',true)
+->where('stock',0)
+->get()
+
+6- récupérer les produits dont le prix est négatif
+   ou le stock est négatif.
+DB::table('products')
+->where('price','<',0)
+->orWhere('stock','<',0)
+->get()
+
+7- vérifier s'il y un produit ayant l'id 200.
+DB::table('products')
+->where('id',200)
+->exists()
+
+8- récupérer les produits publiés et qui n'ont 
+   pas de date d'expiration.
+DB::table('products')
+->where('is_piblished',true)
+->whereNull('date_date_expiration')
+->get()
+
+9- récupérer l'id de la catégorie qui a
+   le plus grand nombre de produits.
+$data = DB::table('products')
+->selectRaw('category_id, count(*) as nb_products)
+->groupBy('category_id')
+->latest('nb_products')
+->first()
+$catId = $data[]->category_id;
+
+10- récupérer les produits publiés dont le titre 
+    contient "PC" triés par titre dans l'ordre alphabétique
+DB::table('products')
+->where('is_piblished',true)
+->where('title','like','%PC%')
+->orderBy('title')
+->get()

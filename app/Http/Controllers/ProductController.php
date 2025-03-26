@@ -3,13 +3,108 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function index(){
+    public function index()
+    {
+
+        // 1- types résultats:
+        // get() : liste
+        // $data = DB::table('products')->get();
+
+        // first(): 1 seul element le premier
+        // $data = DB::table('products')->where('id',10)->first();
+
+        // agrégations: count(); max() ...
+        // $data = DB::table('products')->count();
+        // $data = DB::table('products')->max('price');
+
+        // exists(): vérifier l'éxistance:
+        // $data = DB::table('products')->where("price",'<',0)->exists();
+
+        // SELECT
+        // $data = DB::table('products')
+        // ->select('title','price')
+        // ->get();
+
+        // $data = DB::table('products')
+        // ->selectRaw('category_id, count(*) as nbr')
+        // ->groupBy('category_id')
+        // ->get();
+
+        // WHERE
+        // opérateurs: 
+        // = , <>, >, >=, <, <= , LIKE,...
+        // $data = DB::table('products')
+        // ->where('status','pending')
+        // ->get();
+
+        // where: status = 'pending' and price < 10
+        // $data = DB::table('products')
+        // ->where('status','pending')
+        // ->where('price','<', 10)
+        // ->get();
+        // $data = DB::table('products')
+        //     ->where([
+        //         ['status', 'pending'],
+        //         ['price', '<', 10]
+        //     ])
+        //     ->get();
+
+        // where: status = 'published' or is_published = false
+        // $data = DB::table('products')
+        // ->where( 'status','published')
+        // ->orWhere('is_published',false)
+        // ->get();
+
+        // $data = DB::table('products')
+        //     ->whereNull('date_expiration')
+        //     ->get();
+
+        // ORderBy: 
+        // liste produits du  plus récents
+        // $data = DB::table('products')
+        // ->orderBy('created_at','desc')
+        // ->get();
+
+        // liste produits du plus chère chère:
+        // les produits avec le mème prix : seront trié par titre.
+        // $data = DB::table('products')
+        // ->orderBy('price','desc')
+        // ->orderBy('title')
+        // ->get();
+
+        //  liste produits du  plus récents
+        // $data = DB::table('products')
+        //     ->latest()
+        //     ->get();
+
+        // Le produit le plus chére:
+        // $data = DB::table('products')
+        //     ->latest('price')
+        //     ->first();
+
+        // lister les états ayant un nombre de produits > 10.
+        // $data = DB::table('products')
+        // ->selectRaw('status , count(*) as nb_products')
+        // ->groupBy('status')
+        // ->having('nb_products','>',10)
+        // ->get();
+
+        // lister les états ayant au moins 3 produits publiés
+        $data = DB::table('products')
+        ->selectRaw('status , count(*) as nb_products')
+        ->where('is_published',true)
+        ->groupBy('status')
+        ->having('nb_products','>',3)
+        ->get();
+        dd($data);
+
         $title = "Liste des produits";
         $intro = "<p>lorem ipsum dolor <b>dldld </b> lorme <br> lorem lorme </p>";
-        
+
         $products = [
             [
                 'id' => 1,
@@ -78,11 +173,9 @@ class ProductController extends Controller
                 'stock' => 55,
             ]
         ];
-    
-        return view('products.index',compact('title','intro','products'));
+
+        return view('products.index', compact('title', 'intro', 'products'));
     }
 
-    public function create(){
-        
-    }
+    public function create() {}
 }
