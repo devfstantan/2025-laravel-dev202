@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $categories = Category::all();
-        return view('categories.index',compact('categories'));
+        // afficher uniquement les 10 premiers produits 
+        // publiés
     }
 
     /**
@@ -21,7 +20,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        //
     }
 
     /**
@@ -29,8 +28,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = Category::create($request->all());
-        return to_route("categories.index");
+        //
     }
 
     /**
@@ -38,16 +36,15 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        $category = Category::findOrFail($id);
-        return view('categories.show',compact('category'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id) {
-        $category = Category::findOrFail($id);
-        return view('categories.edit',compact('category'));
+    public function edit(string $id)
+    {
+        //
     }
 
     /**
@@ -55,10 +52,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $category = Category::findOrFail($id);
-        $category->update($request->all());
-
-        return to_route("categories.index");
+        //
     }
 
     /**
@@ -66,7 +60,6 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        Category::destroy($id);
-        return to_route("categories.index");
+        //
     }
 }

@@ -17,7 +17,7 @@ Route::view('/', 'welcome')->name('home');
 // Route::get('/products/create',[ProductController::class, 'create'])
 // ->name('products.create' );
 
-Route::resource("/categories",CategoryController::class)
+Route::resource("/categories",CategoryController::class);
 // ->except(['create','store']);
-->only(['index','show']);
+// ->only(['index','show']);
 
