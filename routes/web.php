@@ -12,10 +12,10 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name('home');
 
 
-Route::get('/products',[ProductController::class, 'index'])
-->name('products.index' );
-Route::get('/products/create',[ProductController::class, 'create'])
-->name('products.create' );
+// Route::get('/products',[ProductController::class, 'index'])
+// ->name('products.index' );
+// Route::get('/products/create',[ProductController::class, 'create'])
+// ->name('products.create' );
 
 Route::resource("/categories",CategoryController::class)
 // ->except(['create','store']);

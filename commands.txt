@@ -1,0 +1,11 @@
+1- créer le model, migration, factory et seeder
+php artisan make:model Category -mfs
+
+2- remplir migration et migrer
+php artisan migrate
+
+3- remplir le factory
+4- remplir le seeder 
+5- executer le seeder
+6- créer le controller
+php artisan make:controller CategoryController -r
