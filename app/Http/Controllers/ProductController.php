@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -11,8 +12,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // afficher uniquement les 10 premiers produits 
-        // publiés
+        $products = Product::with('category')
+                            ->orderBy('title')->paginate(10);
+        return view('products.index',compact('products'));
     }
 
     /**

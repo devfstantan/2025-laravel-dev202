@@ -21,3 +21,5 @@ Route::resource("/categories",CategoryController::class);
 // ->except(['create','store']);
 // ->only(['index','show']);
 
+Route::resource('products',ProductController::class);
+

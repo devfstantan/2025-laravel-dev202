@@ -20,6 +20,10 @@ return new class extends Migration
             $table->enum('status',['pending','in review','published'])
                 ->default('pending');
             $table->timestamp('date_expiration')->nullable();
+            $table->foreignId('category_id')
+                ->nullable()
+                ->constrained('categories')
+                ->nullOnDelete();
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,7 +23,7 @@ class ProductFactory extends Factory
             'stock' => fake()->numberBetween(0,100),
             'is_published' => fake()->boolean(),
             'status' => fake()->randomElement(['pending','in review','published']),
-            'date_expiration' => fake()->date()
-        ];
+            'date_expiration' => fake()->date(),
+            'category_id' => Category::inRandomOrder()->first()->id,        ];
     }
 }
