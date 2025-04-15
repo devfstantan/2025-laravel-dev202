@@ -23,4 +23,10 @@ class Product extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
+
+    public function orders(){
+        return $this->belongsToMany(Order::class)
+                    ->withPivot('quantity') // informer le model que la table pivot contient un champs quantité
+                    ->withTimestamps();  // informer le model que la table pivot contient les timestaps
+    }
 }
