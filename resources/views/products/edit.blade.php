@@ -9,16 +9,25 @@
         <div>
             <label for="title">Titre</label>
             <input type="text" name="title" placeholder="saisir le titre" value="{{$product->title}}">
+            @error('title')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
         </div>
         {{-- price --}}
         <div>
             <label for="price">Prix</label>
-            <input type="number" name="price" placeholder="saisir le prix" value="{{$product->price}}">
+            <input type="number" name="price" placeholder="saisir le prix" value="{{$product->price }}">
+            @error('price')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
         </div>
         {{-- stock --}}
         <div>
             <label for="stock">Stock</label>
             <input type="number" name="stock" placeholder="saisir le stock" value="{{$product->stock}}">
+            @error('stock')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
         </div>
         {{-- is_published --}}
         <div>
@@ -31,6 +40,9 @@
              <input type="date" name="date_expiration" id="date_expiration" 
                     value="{{\Carbon\Carbon::parse($product->date_expiration)->format('Y-m-d')}}"
             >
+            @error('date_expiration')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
         </div>
          {{-- catégorie --}}
          <div>
@@ -41,6 +53,9 @@
                     <option value="{{$category->id}}" @selected($product->category_id == $category->id)>{{$category->name}}</option>
                 @endforeach
             </select>
+            @error('category_id')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
         </div>
         <input type="submit" value="Sauvegarder">
     </form>

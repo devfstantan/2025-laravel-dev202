@@ -32,9 +32,19 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request['is_published'] = $request->has('is_published');
-        $data = $request->all();
-        Product::create($data);
+        // 1- valider le formulaire
+        $validated = $request->validate([
+            // 'title' => ['required','min:3','max:255'],
+            'title' => 'required|min:3|max:255',
+            'price' => 'required|numeric|min:0|max:1000000',
+            'stock' => 'required|integer|min:0|max:999999',
+            'date_expiration' => 'nullable|date',
+            'category_id' => 'nullable|exists:categories,id'
+        ]);
+        // 2- inserer le produit
+        $validated['is_published'] = $request->has('is_published');
+
+        Product::create($validated);
         return to_route('products.index');
     }
 
@@ -65,9 +75,20 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         $product = Product::findOrFail($id);
-        $request['is_published'] = $request->has('is_published');
-        $data = $request->all();
-        $product->update($data);
+
+         // 1- valider le formulaire
+         $validated = $request->validate([
+            // 'title' => ['required','min:3','max:255'],
+            'title' => 'required|min:3|max:255',
+            'price' => 'required|numeric|min:0|max:1000000',
+            'stock' => 'required|integer|min:0|max:999999',
+            'date_expiration' => 'nullable|date',
+            'category_id' => 'nullable|exists:categories,id'
+        ]);
+        $validated['is_published'] = $request->has('is_published');
+
+        $product->update($validated);
+        
         return to_route('products.index');
     }
 
