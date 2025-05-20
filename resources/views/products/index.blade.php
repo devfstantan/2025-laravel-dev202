@@ -35,7 +35,11 @@
                         <td>
                             <x-product-stock :value="$product->stock" />
                         </td>
-                        <td>{{$product->category->name}}</td>
+                        <td>
+                            @isset($product->category)
+                                {{$product->category->name}}
+                            @endisset
+                        </td>
                         <td>
                             <a href="{{route('products.edit',$product)}}">Editer</a>
                             <form action="{{route('products.destroy',$product)}}" method="POST">

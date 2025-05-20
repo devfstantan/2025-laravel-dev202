@@ -3,7 +3,7 @@
 
 @section('content')
     <h1>Nouveau Produit</h1>
-    <form action="{{ route('products.store') }}" method="POST">
+    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         {{-- title --}}
         <div>
@@ -58,6 +58,15 @@
                 <div style="color:red">{{ $message }}</div>
             @enderror
         </div>
+        {{-- Image --}}
+        <div>
+            <label for="image">Image du produit</label>
+            <input type="file" value="{{ old('image') }}" name="image" id="image" accept="image/*">
+            @error('image')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
+        </div>
+        
         <input type="submit" value="Ajouter">
     </form>
 @endsection

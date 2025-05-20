@@ -16,7 +16,8 @@ class Product extends Model
         'stock',
         'is_published',
         'date_expiration',
-        'category_id'
+        'category_id',
+        'image'
     ];
     
     // Définir la relation product avec category:

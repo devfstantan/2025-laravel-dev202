@@ -2,7 +2,7 @@
 @section('title', 'modifier Produit')
 
 @section('content')
-    <form action="{{ route('products.update',$product) }}" method="POST">
+    <form action="{{ route('products.update',$product) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         {{-- title --}}
@@ -57,6 +57,18 @@
                 <div style="color:red">{{ $message }}</div>
             @enderror
         </div>
+         {{-- Image --}}
+        <div>
+            <label for="image">Image du produit</label>
+            @isset($product->image)
+                <img src="{{asset('/storage/'.$product->image)}}" alt="">   
+            @endisset
+            <input type="file" value="{{ old('image') }}" name="image" id="image" accept="image/*">
+            @error('image')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
+        </div>
+
         <input type="submit" value="Sauvegarder">
     </form>
 @endsection

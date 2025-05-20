@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -39,9 +40,15 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0|max:1000000',
             'stock' => 'required|integer|min:0|max:999999',
             'date_expiration' => 'nullable|date',
-            'category_id' => 'nullable|exists:categories,id'
+            'category_id' => 'nullable|exists:categories,id',
+            'image' => 'nullable|file|image|max:2048', // MAX:2Mo
         ]);
-        // 2- inserer le produit
+        // 2- stocker le fichier image
+        if($request->hasFile('image')){
+            $path = $request->file('image')->store('products','public');
+            $validated['image'] = $path;
+        }
+        // 3- inserer le produit
         $validated['is_published'] = $request->has('is_published');
 
         Product::create($validated);
@@ -83,8 +90,25 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0|max:1000000',
             'stock' => 'required|integer|min:0|max:999999',
             'date_expiration' => 'nullable|date',
-            'category_id' => 'nullable|exists:categories,id'
+            'category_id' => 'nullable|exists:categories,id',
+            'image' => 'nullable|file|image|max:2048', // MAX:2Mo
         ]);
+
+        // 2- stocker le fichier image
+        if($request->hasFile('image')){
+            // Supprimer l'ancienne image s'elle existe
+            if( 
+                $product->image &&
+                Storage::disk('public')->exists($product->image)
+            ){
+                Storage::disk('public')->delete($product->image);
+            }
+            // stocker le nouveau fichier image
+            $path = $request->file('image')->store('products','public');
+            $validated['image'] = $path;
+        }
+
+        // 3- mettre à jour le prouit
         $validated['is_published'] = $request->has('is_published');
 
         $product->update($validated);
