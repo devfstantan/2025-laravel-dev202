@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -31,24 +33,16 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        // 1- valider le formulaire
-        $validated = $request->validate([
-            // 'title' => ['required','min:3','max:255'],
-            'title' => 'required|min:3|max:255',
-            'price' => 'required|numeric|min:0|max:1000000',
-            'stock' => 'required|integer|min:0|max:999999',
-            'date_expiration' => 'nullable|date',
-            'category_id' => 'nullable|exists:categories,id',
-            'image' => 'nullable|file|image|max:2048', // MAX:2Mo
-        ]);
-        // 2- stocker le fichier image
+        $validated = $request->validated();
+
+        // 1- stocker le fichier image
         if($request->hasFile('image')){
             $path = $request->file('image')->store('products','public');
             $validated['image'] = $path;
         }
-        // 3- inserer le produit
+        // 2- inserer le produit
         $validated['is_published'] = $request->has('is_published');
 
         Product::create($validated);
@@ -58,18 +52,16 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        $product = Product::findOrFail($id);
         return view('products.show',compact('product'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        $product = Product::findOrFail($id);
         $categories = Category::orderBy('name')->get();
 
         return view('products.edit',compact('product','categories'));
@@ -79,22 +71,11 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        $product = Product::findOrFail($id);
+         $validated = $request->validated();
 
-         // 1- valider le formulaire
-         $validated = $request->validate([
-            // 'title' => ['required','min:3','max:255'],
-            'title' => 'required|min:3|max:255',
-            'price' => 'required|numeric|min:0|max:1000000',
-            'stock' => 'required|integer|min:0|max:999999',
-            'date_expiration' => 'nullable|date',
-            'category_id' => 'nullable|exists:categories,id',
-            'image' => 'nullable|file|image|max:2048', // MAX:2Mo
-        ]);
-
-        // 2- stocker le fichier image
+        // 1- stocker le fichier image
         if($request->hasFile('image')){
             // Supprimer l'ancienne image s'elle existe
             if( 
@@ -108,7 +89,7 @@ class ProductController extends Controller
             $validated['image'] = $path;
         }
 
-        // 3- mettre à jour le prouit
+        // 2- mettre à jour le prouit
         $validated['is_published'] = $request->has('is_published');
 
         $product->update($validated);
@@ -119,9 +100,8 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        $product = Product::findOrFail($id);
         $product->delete();
         return to_route('products.index');
     }
