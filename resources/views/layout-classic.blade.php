@@ -15,6 +15,15 @@
 
 <body>
     <header>
+        @auth
+            Bonjour : {{Auth::user()->name}} 
+            <form action="{{route('auth.logout')}}" method="POST">
+                @csrf
+                <input type="submit" value="Déconnexion">
+            </form>
+        @else
+            Guest mode
+        @endauth
         <nav>
             <a href="#">Home</a>
             <a href="#">Products</a>
