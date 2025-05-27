@@ -62,6 +62,6 @@ class AuthController extends Controller
     // handle logout action
     public function logout() {
         Auth::logout();
-        return to_route('auth.login.show');
+        return to_route('login');
     }
 }
